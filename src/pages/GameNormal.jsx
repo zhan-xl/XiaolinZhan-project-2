@@ -1,31 +1,40 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Message from "../components/message";
-import {text} from '../resources/commonSixWords.json';
 import Hint from "../components/hint";
+import {AnswerContext, DictContext} from "../App";
+import {textSix} from "../resources/commonSixWords.json";
+import {textSeven} from "../resources/commonSevenWords.json"
 
 export default function GameNormal() {
-  let [answer, setAnswer] = useState('');
-  let [words, setWords] = useState([]);
-  const [attempt, setAttempt] = useState(0);
+  const [answer, setAnswer] = useContext(AnswerContext)
+  const [dict, setDict] = useContext(DictContext);
+  const [attempt, setAttempt] = useState(answer.length - 1);
   const [guess, setGuess] = useState('');
-  const [message, setMessage] = useState('Welcome, this is normal level.');
+  const [message, setMessage] = useState('');
   let [hints, setHints] = useState([]);
 
   useEffect(() => {
-    words = text.split(' ');
-    answer = words[Math.floor(Math.random() * words.length)].toUpperCase();
-    setWords(words);
-    setAnswer(answer);
-    setAttempt(answer.length - 1)
+    const length = window.location.pathname.split('/').pop() === 'normal' ? 6 : 7;
+    let dictionary;
+    if (length === 6) {
+      dictionary = textSix.split(' ');
+      setMessage('You have chose normal level.')
+    } else {
+      dictionary = textSeven.split(' ');
+      setMessage('You have chose difficult level.')
+    }
+    setDict(dictionary);
+    let newAnswer = dictionary[Math.floor(Math.random() * dictionary.length)].toUpperCase();
+    setAnswer(newAnswer);
+    console.log('The answer is: ' + newAnswer);
   }, [])
 
   function handleInput(event) {
     setGuess(event.target.value.toUpperCase());
   }
-
   function handleCheck() {
     if (!isNumberOfLetter()) {
-      setMessage('Please enter a word with 6 letter.');
+      setMessage('Please enter a word with ' + answer.length + ' letter.');
       return null;
     }
     if (!isValidWord()) {
@@ -45,21 +54,12 @@ export default function GameNormal() {
     }
   }
 
-
   const isValidWord = () => {
-    if (words.includes(guess.toLowerCase())) {
-      return true;
-    } else {
-      return false;
-    }
+    return !!dict.includes(guess.toLowerCase());
   }
 
   const isNumberOfLetter = () => {
-    if (guess.length !== 6) {
-      return false;
-    } else {
-      return true;
-    }
+    return guess.length === answer.length;
   }
 
   const handleHint = () => {
@@ -100,23 +100,21 @@ export default function GameNormal() {
 
   return (
       <div className='game'>
-        {console.log(answer)}
         <Message message={message}/>
         <input
             id='text-box'
             type='text'
-            maxLength={6}
+            maxLength={answer.length}
             value={guess}
             onChange={handleInput}
         />
-        <button onClick={handleCheck}>check</button>
+        <button onClick={handleCheck} style={{marginLeft: 8}}>check</button>
         <h4>
           Hints:
         </h4>
         {hints.map(hint => (
             <Hint key={hint.id} value={hint.value} colors={hint.colors}/>
         ))}
-
       </div>
   );
 }
