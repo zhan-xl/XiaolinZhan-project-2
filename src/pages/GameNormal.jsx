@@ -4,6 +4,7 @@ import Hint from "../components/hint";
 import {AnswerContext, DictContext} from "../App";
 import {textSix} from "../resources/commonSixWords.json";
 import {textSeven} from "../resources/commonSevenWords.json"
+import {Link} from "react-router-dom";
 
 export default function GameNormal() {
   const [answer, setAnswer] = useContext(AnswerContext)
@@ -12,9 +13,11 @@ export default function GameNormal() {
   const [guess, setGuess] = useState('');
   const [message, setMessage] = useState('');
   let [hints, setHints] = useState([]);
+  const [bingo, setBingo] = useState(false);
 
   useEffect(() => {
-    const length = window.location.pathname.split('/').pop() === 'normal' ? 6 : 7;
+    const length = window.location.pathname.split('/').pop() === 'normal' ? 6
+        : 7;
     let dictionary;
     if (length === 6) {
       dictionary = textSix.split(' ');
@@ -24,7 +27,8 @@ export default function GameNormal() {
       setMessage('You have chose difficult level.')
     }
     setDict(dictionary);
-    let newAnswer = dictionary[Math.floor(Math.random() * dictionary.length)].toUpperCase();
+    let newAnswer = dictionary[Math.floor(
+        Math.random() * dictionary.length)].toUpperCase();
     setAnswer(newAnswer);
     console.log('The answer is: ' + newAnswer);
   }, [])
@@ -32,6 +36,7 @@ export default function GameNormal() {
   function handleInput(event) {
     setGuess(event.target.value.toUpperCase());
   }
+
   function handleCheck() {
     if (!isNumberOfLetter()) {
       setMessage('Please enter a word with ' + answer.length + ' letter.');
@@ -44,6 +49,7 @@ export default function GameNormal() {
 
     if (answer === guess.toUpperCase()) {
       setMessage('Congratulation! Would you like to try again?');
+      setBingo(true);
     } else if (attempt === 0) {
       setMessage('Game over. The answer is: ' + answer + '.');
     } else {
@@ -101,14 +107,28 @@ export default function GameNormal() {
   return (
       <div className='game'>
         <Message message={message}/>
-        <input
-            id='text-box'
-            type='text'
-            maxLength={answer.length}
-            value={guess}
-            onChange={handleInput}
-        />
-        <button onClick={handleCheck} style={{marginLeft: 8}}>check</button>
+        {bingo ?
+            <>
+              <button className='game-button' onClick={() => window.location.reload()}>Yes!</button>
+              <Link to={'/game'}>
+                <button className='game-button'>Choose Level</button>
+              </Link>
+            </>
+            :
+            <>
+              <input
+                  id='text-box'
+                  type='text'
+                  className='text-box'
+                  maxLength={answer.length}
+                  value={guess}
+                  onChange={handleInput}
+              />
+              <button onClick={handleCheck} className='game-button'>Check
+              </button>
+            </>
+        }
+
         <h4>
           Hints:
         </h4>

@@ -1,6 +1,4 @@
-import React, {useContext, useEffect} from "react";
-import {AnswerContext, DictContext} from "../App";
-import {text} from "../resources/commonSixWords.json";
+import React from "react";
 
 export default function Game() {
 

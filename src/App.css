@@ -12,11 +12,6 @@ a {
   text-align: center;
 }
 
-#text-box {
-  text-transform: uppercase;
-  margin-top: 24px;
-}
-
 #flex-container {
   display: flex;
   justify-content: center;
@@ -42,8 +37,17 @@ a {
   background-color: gray;
 }
 
+.message {
+  font-size: 24px;
+}
+
 .game {
   text-align: center;
+}
+
+.text-box {
+  font-size: 24px;
+  margin-top: 0px;
 }
 
 .game-buttons {
@@ -58,6 +62,7 @@ a {
   margin: 12px;
   border-radius: 4px;
   box-shadow: none;
+  color: white;
 }
 .rules {
   text-align: center;

@@ -1,12 +1,10 @@
-import React from "react";
-import {createContext, useState} from "react";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import React, {createContext, useState} from "react";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Game from "./pages/Game";
 import NavBar from "./components/navBar";
 import Home from "./pages/Home";
 import Rules from "./pages/Rules";
 import GameNormal from './pages/GameNormal';
-import GameDifficult from './pages/GameDifficult';
 
 export const AnswerContext = createContext(undefined);
 export const DictContext = createContext(undefined);
