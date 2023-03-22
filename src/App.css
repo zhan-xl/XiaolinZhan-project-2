@@ -1,0 +1,65 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+.home-message {
+  text-align: center;
+}
+
+#text-box {
+  text-transform: uppercase;
+  margin-top: 24px;
+}
+
+#flex-container {
+  display: flex;
+  justify-content: center;
+}
+
+#nav-bar-box {
+  display: flex;
+  background-color: #282c34;
+  margin-bottom: 32px;
+  padding: 2px;
+  border-radius: 4px;
+}
+
+.nav-bar-tab {
+  margin: 8px;
+  font-weight: bold;
+  font-size: 24px;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.nav-bar-tab:hover {
+  background-color: gray;
+}
+
+.game {
+  text-align: center;
+}
+
+.game-buttons {
+  text-align: center;
+}
+
+.game-button{
+  background-color: #282c34;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px;
+  margin: 12px;
+  border-radius: 4px;
+  box-shadow: none;
+}
+.rules {
+  text-align: center;
+  line-height: 120%;
+}
