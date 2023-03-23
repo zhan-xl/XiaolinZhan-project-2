@@ -33,8 +33,18 @@ export default function GameNormal() {
     console.log('The answer is: ' + newAnswer);
   }, [])
 
+  useEffect(() => saveProgress, [hints]);
+
   function handleInput(event) {
     setGuess(event.target.value.toUpperCase());
+  }
+
+  function saveProgress() {
+    localStorage.setItem('answer', answer);
+    localStorage.setItem('guess', guess);
+    localStorage.setItem('dict', dict);
+    localStorage.setItem('attempt', JSON.stringify(attempt));
+    localStorage.setItem('hints', JSON.stringify(hints));
   }
 
   function handleCheck() {
@@ -104,12 +114,28 @@ export default function GameNormal() {
     return colors;
   }
 
+  function newGame () {
+    window.location.reload();
+    localStorage.clear();
+  }
+
+  function loadGame () {
+    if (localStorage.getItem('answer') !== null) {
+      setAnswer(localStorage.getItem('answer'));
+      setGuess(localStorage.getItem('guess'));
+      setDict(localStorage.getItem('dict'));
+      setAttempt(localStorage.getItem('attempt'));
+      setHints(JSON.parse(localStorage.getItem('hints')));
+    }
+  }
+
   return (
       <div className='game'>
         <Message message={message}/>
+
         {bingo ?
             <>
-              <button className='game-button' onClick={() => window.location.reload()}>Yes!</button>
+              <button className='game-button' onClick={newGame}>Yes!</button>
               <Link to={'/game'}>
                 <button className='game-button'>Choose Level</button>
               </Link>
@@ -128,13 +154,14 @@ export default function GameNormal() {
               </button>
             </>
         }
-
-        <h4>
+        <h2>
           Hints:
-        </h4>
+        </h2>
         {hints.map(hint => (
             <Hint key={hint.id} value={hint.value} colors={hint.colors}/>
         ))}
+        <button className='game-button' onClick={newGame}>New game</button>
+        <button className='game-button' onClick={loadGame}>Load game</button>
       </div>
   );
 }
