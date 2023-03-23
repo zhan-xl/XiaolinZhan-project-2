@@ -31,9 +31,8 @@ export default function GameNormal() {
         Math.random() * dictionary.length)].toUpperCase();
     setAnswer(newAnswer);
     console.log('The answer is: ' + newAnswer);
+    console.log(dictionary);
   }, [])
-
-  useEffect(() => saveProgress, [hints]);
 
   function handleInput(event) {
     setGuess(event.target.value.toUpperCase());
@@ -67,11 +66,12 @@ export default function GameNormal() {
       setAttempt(attempt - 1);
       handleHint();
       setGuess('');
+      saveProgress();
     }
   }
 
   const isValidWord = () => {
-    return !!dict.includes(guess.toLowerCase());
+    return !!dict.includes(guess.toUpperCase());
   }
 
   const isNumberOfLetter = () => {
